@@ -1,7 +1,7 @@
 {
   "name": "daily-economy-cardnews",
   "description": "그날의 경제 이슈 3개로 실사 사진 카드뉴스 12장(4:5)과 9:16 영상을 만들고, 승인 뒤 SNS 6곳에 이슈별로 올리는 Claude Code 스킬",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "author": { "name": "yongsuahn" },
   "license": "MIT",
   "keywords": ["cardnews", "카드뉴스", "instagram", "carousel", "reels", "economy"]

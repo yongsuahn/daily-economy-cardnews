@@ -16,7 +16,7 @@ let content = try JSONDecoder().decode(Content.self, from: Data(contentsOf: root
 
 func color(_ h: String, _ a: CGFloat = 1) -> NSColor { let v = Int(h, radix: 16)!; return NSColor(srgbRed: CGFloat((v >> 16) & 255) / 255, green: CGFloat((v >> 8) & 255) / 255, blue: CGFloat(v & 255) / 255, alpha: a) }
 let ink = "1E1D26", muted = "6C6A75"
-let boxA: CGFloat = 0.78  // 2~4장 문장 상자는 반투명 흰색(2026-11-15 사용자 지시)
+let boxA: CGFloat = 0.18  // 2~4장 문장 상자는 거의 투명한 흰 유리 + 흰 글씨(2026-11-15 사용자 지시)
 func rect(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat, _ fill: String, _ r: CGFloat = 0, a: CGFloat = 1) { color(fill, a).setFill(); NSBezierPath(roundedRect: NSRect(x: x, y: y, width: w, height: h), xRadius: r, yRadius: r).fill() }
 func txt(_ s: String, _ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ size: CGFloat, _ fill: String = ink, _ weight: String = "Regular", _ ls: CGFloat = 4, shadow: Bool = false, kern: CGFloat = 0) {
   let p = NSMutableParagraphStyle(); p.lineSpacing = ls; p.lineBreakStrategy = .hangulWordPriority  // 한글 단어 중간에서 끊지 않음
@@ -77,7 +77,7 @@ for iss in content.issues {
     let rep = begin(); header(iss, i + 2, iss.tag, top: 560, bottom: 680)
     txt(c.title, 60, 177, 970, 72, "FFFFFF", "Bold", shadow: true); txt(c.fact, 64, 355, 960, 29, light(iss.accent), "Bold", shadow: true)
     txt(c.tip, 64, 995, 960, 28, "FFFFFF", "SemiBold", shadow: true)
-    rect(64, 1085, 952, 150, "FFFFFF", 22, a: boxA); txt(c.head, 90, 1105, 900, 25, iss.accent, "Bold"); txt(c.note, 90, 1148, 900, 26, ink, "Regular")
+    rect(64, 1085, 952, 150, "FFFFFF", 22, a: boxA); txt(c.head, 90, 1105, 900, 25, light(iss.accent), "Bold", shadow: true); txt(c.note, 90, 1148, 900, 26, "FFFFFF", "Regular", shadow: true)
     try save(rep, "\(iss.key)-0\(i + 2).png")
   }
   // 4: 대처법
@@ -87,7 +87,7 @@ for iss in content.issues {
     let y = CGFloat(795 + j * 102)
     rect(64, y, 952, 88, "FFFFFF", 20, a: boxA)
     rect(86, y + 20, 48, 48, iss.accent, 24); txt("\(j + 1)", j == 0 ? 103 : 101, y + 25, 30, 28, "FFFFFF", "Bold")
-    txt(t, 154, y + 27, 840, 27, ink, "SemiBold")
+    txt(t, 154, y + 27, 840, 27, "FFFFFF", "SemiBold", shadow: true)
   }
   txt("* " + iss.todoNote, 64, 1208, 950, 21, soft)
   try save(rep, "\(iss.key)-04.png")
@@ -118,7 +118,7 @@ for iss in content.issues {
     let rep = begin(); vtop(iss, i + 2, iss.tag, top: 760, bottom: 960)
     txt(c.title, 60, 232, TW, 84, "FFFFFF", "Bold", shadow: true); txt(c.fact, 64, 452, TW, 34, light(iss.accent), "Bold", shadow: true)
     txt(c.tip, 64, 1202, TW, 31, "FFFFFF", "SemiBold", 6, shadow: true)  // 두 줄까지 들어감
-    rect(64, 1330, TW, 142, "FFFFFF", 24, a: boxA); txt(c.head, 92, 1350, TW - 56, 27, iss.accent, "Bold"); txt(c.note, 92, 1392, TW - 56, 27, ink, "Regular")
+    rect(64, 1330, TW, 142, "FFFFFF", 24, a: boxA); txt(c.head, 92, 1350, TW - 56, 27, light(iss.accent), "Bold", shadow: true); txt(c.note, 92, 1392, TW - 56, 27, "FFFFFF", "Regular", shadow: true)
     try save(rep, "vertical/\(iss.key)-0\(i + 2).png")
   }
   let rep = begin(); vtop(iss, 4, "\(iss.tag)  →  대처법", top: 700, bottom: 820)
@@ -127,7 +127,7 @@ for iss in content.issues {
     let y = CGFloat(1015 + j * 110)
     rect(64, y, TW, 96, "FFFFFF", 22, a: boxA)
     rect(86, y + 22, 52, 52, iss.accent, 26); txt("\(j + 1)", j == 0 ? 104 : 103, y + 28, 30, 30, "FFFFFF", "Bold")
-    txt(t, 160, y + 29, TW - 110, 29, ink, "SemiBold")
+    txt(t, 160, y + 29, TW - 110, 29, "FFFFFF", "SemiBold", shadow: true)
   }
   txt("* " + iss.todoNote, 64, 1462, TW, 22, soft)
   try save(rep, "vertical/\(iss.key)-04.png")
