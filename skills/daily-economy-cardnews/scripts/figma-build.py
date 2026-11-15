@@ -78,6 +78,7 @@ function rect(parent, name, x, y, w, h, fill, r = 0, ellipse = false) {
   parent.appendChild(n); return n;
 }
 const light = (h, k = 0.62) => [0, 2, 4].map(i => { const c = parseInt(h.slice(i, i + 2), 16); return Math.round(c + (255 - c) * k).toString(16).padStart(2, '0'); }).join('').toUpperCase();
+const BOX = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.78 }];  // 반투명 문장 상자
 const grad = (a0, a1) => [{ type: 'GRADIENT_LINEAR', gradientTransform: [[0, 1, 0], [-1, 0, 1]], gradientStops: [{ position: 0, color: { r: 0, g: 0, b: 0, a: a0 } }, { position: 1, color: { r: 0, g: 0, b: 0, a: a1 } }] }];
 
 // 카드에 머리글·날짜·「넘겨서 보기」·쪽 번호는 넣지 않는다(2026-11-15 사용자 지시). 카드 상단 컴포넌트도 만들지 않는다.
@@ -118,14 +119,14 @@ for (const iss of C.issues) {
       text(f, '제목', c.title, 60, 172, 970, 72, WHITE, 'B', { lh: 1.22, shadow: true });
       text(f, '핵심 수치', c.fact, 64, 352, 960, 29, light(iss.accent), 'B', { shadow: true });
       text(f, '뉴스 해설', c.tip, 64, 992, 960, 28, WHITE, 'M', { shadow: true });
-      rect(f, '요점 상자 배경', 64, 1085, 952, 150, WHITE, 22);
+      rect(f, '요점 상자 배경', 64, 1085, 952, 150, BOX, 22);
       text(f, '요점 제목', c.head, 90, 1103, 900, 25, iss.accent, 'B');
       text(f, '요점 설명', c.note, 90, 1145, 900, 26, INK, 'R');
     } else {
       text(f, '제목', '그럼 나는\n어떻게 대비할까?', 60, 172, 970, 72, WHITE, 'B', { lh: 1.22, shadow: true });
       iss.todo.slice(0, 4).forEach((t, j) => {
         const y = 795 + j * 102;
-        rect(f, `대처 ${j + 1} 배경`, 64, y, 952, 88, WHITE, 20);
+        rect(f, `대처 ${j + 1} 배경`, 64, y, 952, 88, BOX, 20);
         rect(f, `대처 ${j + 1} 번호 배경`, 86, y + 20, 48, 48, iss.accent, 0, true);
         text(f, `번호 ${j + 1}`, String(j + 1), 86, y + 22, 48, 28, WHITE, 'B', { align: 'CENTER' });
         text(f, `대처 ${j + 1}`, t, 154, y + 25, 840, 27, INK, 'M');
