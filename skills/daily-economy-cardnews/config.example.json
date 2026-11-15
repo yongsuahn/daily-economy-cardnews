@@ -1,0 +1,25 @@
+{
+  "workdir_root": "~/cardnews",
+  "brand": "",
+  "platforms": ["facebook", "instagram", "threads", "x", "tiktok", "youtube"],
+  "browser_profile": "Aside 브라우저 기본 프로필(모든 SNS·Midjourney 에 로그인된 상태)",
+  "accounts": {
+    "facebook_page": "내 페이지 이름",
+    "facebook_page_slug": "mypage",
+    "instagram": "my.instagram",
+    "threads": "my.instagram",
+    "x": "myxhandle",
+    "tiktok": "my.tiktok",
+    "youtube_channel_id": "UCxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  "meta": {
+    "meta_asset_id": "Business Suite 주소의 asset_id",
+    "meta_business_id": "Business Suite 주소의 business_id"
+  },
+  "figma": {
+    "file_key": "",
+    "account_note": "",
+    "month_pages": {}
+  },
+  "notes": []
+}

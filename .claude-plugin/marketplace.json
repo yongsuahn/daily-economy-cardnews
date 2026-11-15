@@ -1,0 +1,16 @@
+{
+  "name": "yongsuahn-skills",
+  "owner": {
+    "name": "yongsuahn"
+  },
+  "plugins": [
+    {
+      "name": "daily-economy-cardnews",
+      "source": "./",
+      "description": "경제 이슈 실사 카드뉴스 12장 + 9:16 영상 + SNS 6곳 게시"
+    }
+  ],
+  "metadata": {
+    "description": "카드뉴스·SNS 콘텐츠 제작용 Claude Code 스킬 모음"
+  }
+}
