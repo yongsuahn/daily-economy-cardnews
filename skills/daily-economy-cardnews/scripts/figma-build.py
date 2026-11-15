@@ -77,6 +77,7 @@ function rect(parent, name, x, y, w, h, fill, r = 0, ellipse = false) {
   n.fills = fill === null ? [{ type: 'SOLID', color: { r: 0.85, g: 0.85, b: 0.85 } }] : (typeof fill === 'string' ? solid(fill) : fill);
   parent.appendChild(n); return n;
 }
+const light = (h, k = 0.62) => [0, 2, 4].map(i => { const c = parseInt(h.slice(i, i + 2), 16); return Math.round(c + (255 - c) * k).toString(16).padStart(2, '0'); }).join('').toUpperCase();
 const grad = (a0, a1) => [{ type: 'GRADIENT_LINEAR', gradientTransform: [[0, 1, 0], [-1, 0, 1]], gradientStops: [{ position: 0, color: { r: 0, g: 0, b: 0, a: a0 } }, { position: 1, color: { r: 0, g: 0, b: 0, a: a1 } }] }];
 
 // 카드에 머리글·날짜·「넘겨서 보기」·쪽 번호는 넣지 않는다(2026-11-15 사용자 지시). 카드 상단 컴포넌트도 만들지 않는다.
@@ -105,20 +106,23 @@ for (const iss of C.issues) {
       text(f, '표지 제목', iss.cover, 62, 990, 960, 84, WHITE, 'B', { lh: 1.25, kern: -1.5, shadow: true });
       continue;
     }
+    // 2~4장도 사진을 배경으로 꽉 채운다(2026-11-15 사용자 지시)
+    photo(0, 0, 1080, 1350, 0);
+    rect(f, '사진 어둡게', 0, 0, 1080, 1350, [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 }, opacity: 0.22 }]);
+    rect(f, '상단 그라데이션', 0, 0, 1080, n === 4 ? 520 : 560, grad(0.78, 0));
+    rect(f, '하단 그라데이션', 0, n === 4 ? 560 : 680, 1080, n === 4 ? 790 : 670, grad(0, 0.88));
     rect(f, '주제 알약 배경', 64, 107, 640, 45, WHITE, 22);
     text(f, '순서 · 주제', n === 4 ? `${iss.tag}  →  대처법` : iss.tag, 86, 112, 610, 23, iss.accent, 'B');
     if (n < 4) {
       const c = iss.cards[n - 2];
-      text(f, '제목', c.title, 60, 172, 970, 72, INK, 'B', { lh: 1.22 });
-      text(f, '핵심 수치', c.fact, 64, 352, 960, 29, iss.accent, 'B');
-      photo(64, 420, 952, 550, 28);
-      text(f, '뉴스 해설', c.tip, 64, 992, 960, 28, INK, 'M');
+      text(f, '제목', c.title, 60, 172, 970, 72, WHITE, 'B', { lh: 1.22, shadow: true });
+      text(f, '핵심 수치', c.fact, 64, 352, 960, 29, light(iss.accent), 'B', { shadow: true });
+      text(f, '뉴스 해설', c.tip, 64, 992, 960, 28, WHITE, 'M', { shadow: true });
       rect(f, '요점 상자 배경', 64, 1085, 952, 150, WHITE, 22);
       text(f, '요점 제목', c.head, 90, 1103, 900, 25, iss.accent, 'B');
       text(f, '요점 설명', c.note, 90, 1145, 900, 26, INK, 'R');
     } else {
-      text(f, '제목', '그럼 나는\n어떻게 대비할까?', 60, 172, 970, 72, INK, 'B', { lh: 1.22 });
-      photo(64, 370, 952, 400, 28);
+      text(f, '제목', '그럼 나는\n어떻게 대비할까?', 60, 172, 970, 72, WHITE, 'B', { lh: 1.22, shadow: true });
       iss.todo.slice(0, 4).forEach((t, j) => {
         const y = 795 + j * 102;
         rect(f, `대처 ${j + 1} 배경`, 64, y, 952, 88, WHITE, 20);
@@ -126,9 +130,9 @@ for (const iss of C.issues) {
         text(f, `번호 ${j + 1}`, String(j + 1), 86, y + 22, 48, 28, WHITE, 'B', { align: 'CENTER' });
         text(f, `대처 ${j + 1}`, t, 154, y + 25, 840, 27, INK, 'M');
       });
-      text(f, '주의 문구', '* ' + iss.todoNote, 64, 1206, 950, 21, MUTED, 'R');
+      text(f, '주의 문구', '* ' + iss.todoNote, 64, 1206, 950, 21, 'D9D9D9', 'R');
     }
-    text(f, '기사 출처', iss.source, 64, 1278, 950, 19, MUTED, 'R');
+    text(f, '기사 출처', iss.source, 64, 1278, 950, 19, 'D9D9D9', 'R');
   }
 }
 block('원본 안내', D.guide, 28, '626974', 'R');
